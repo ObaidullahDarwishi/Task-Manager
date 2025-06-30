@@ -1,0 +1,84 @@
+import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
+public class TaskManager {
+    private ArrayList<Task> myTasks = new ArrayList<>();
+
+    // Add a new task
+    public void addTask(String title, int deadline, int priority, boolean isDone) {
+        Task newTask = new Task(title, deadline, priority, isDone);
+        myTasks.add(newTask);
+    }
+
+    // List all tasks
+    public void listTasks() {
+        if (myTasks.isEmpty()) {
+            System.out.println("No tasks to show.");
+            return;
+        }
+
+        for (int i = 0; i < myTasks.size(); i++) {
+            System.out.println("Task #" + (i + 1));
+            myTasks.get(i).displayInfo();
+            System.out.println("-------------------");
+        }
+    }
+
+    // Mark a task as done by index (1-based)
+    public void markTaskAsDone(int taskNumber) {
+        int index = taskNumber - 1;
+
+        if (index >= 0 && index < myTasks.size()) {
+            myTasks.get(index).setIsDone(true);
+            System.out.println("Task #" + taskNumber + " marked as done.");
+        } else {
+            System.out.println("Invalid task number.");
+        }
+    }
+
+    public void saveToFile(String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (int i = 0; i < myTasks.size(); i++) {
+                Task task = myTasks.get(i);
+                String line = task.getTitle() + "," + task.getDeadline() + "," + task.getPriority() + "," + task.getIsDone();
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("Tasks saved to " + filename);
+        } catch (IOException e) {
+            System.out.println("Error saving to file: " + e.getMessage());
+        }
+    }
+
+    public void loadFromFile(String filename) {
+        myTasks.clear();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                if (parts.length == 4) {
+                    String title = parts[0];
+                    int deadline = Integer.parseInt(parts[1]);
+                    int priority = Integer.parseInt(parts[2]);
+                    boolean isDone = Boolean.parseBoolean(parts[3]);
+
+                    Task task = new Task(title, deadline, priority, isDone);
+                    myTasks.add(task);
+                }
+            }
+
+            System.out.println("Tasks loaded from " + filename);
+        } catch (IOException e) {
+            System.out.println("Error loading from file: " + e.getMessage());
+        }
+    }
+
+}
