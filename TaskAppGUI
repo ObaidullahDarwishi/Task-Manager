@@ -1,0 +1,62 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import javafx.geometry.Insets;
+
+    public class TaskAppGUI extends Application {
+
+        public static void main(String[] args) {
+            launch(args);
+        }
+
+        @Override
+        public void start(Stage primaryStage) {
+            primaryStage.setTitle("Task Scheduler");
+
+            TextField titleField = new TextField();
+            titleField.setPromptText("Title");
+
+            TextField deadlineField = new TextField();
+            deadlineField.setPromptText("Deadline (number)");
+
+            TextField priorityField = new TextField();
+            priorityField.setPromptText("Priority (1-High, 2-Med, 3-Low)");
+
+            Button addButton = new Button("Add Task");
+
+            addButton.setOnAction(e -> {
+                String title = titleField.getText();
+                String deadlineText = deadlineField.getText();
+                String priorityText = priorityField.getText();
+
+                if (title.isEmpty() || deadlineText.isEmpty() || priorityText.isEmpty()) {
+                    System.out.println("Please fill in all fields!");
+                    return;
+                }
+
+                try {
+                    int deadline = Integer.parseInt(deadlineText);
+                    int priority = Integer.parseInt(priorityText);
+
+                    System.out.println("Added task: Title: " + title + ", Deadline:  " + deadline + ", Priority: " + priority);
+
+                    titleField.clear();
+                    deadlineField.clear();
+                    priorityField.clear();
+                } catch (NumberFormatException ex) {
+                    System.out.println("Deadline and Priority must be numbers!");
+                }
+            });
+
+            VBox layout = new VBox(10);
+            layout.setPadding(new Insets(15));
+            layout.getChildren().addAll(titleField, deadlineField, priorityField, addButton);
+
+            Scene scene = new Scene(layout, 400, 250);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+    }
+
