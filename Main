@@ -1,0 +1,73 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        TaskManager manager = new TaskManager();
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n--- Task Scheduler ---");
+            System.out.println("1. Add Task");
+            System.out.println("2. List All Tasks");
+            System.out.println("3. Mark Task as Done");
+            System.out.println("4. Exit");
+            System.out.println("5. Save Tasks to File");
+            System.out.println("6. Load Tasks from File");
+            System.out.print("Choose an option: ");
+
+            int choice = scan.nextInt();
+            scan.nextLine(); // clear newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter task title: ");
+                    String title = scan.nextLine();
+
+                    System.out.print("Enter deadline (whole number): ");
+                    int deadline = scan.nextInt();
+
+                    System.out.print("Enter priority (1 = High, 2 = Medium, 3 = Low): ");
+                    int priority = scan.nextInt();
+
+                    scan.nextLine(); // clear newline
+                    manager.addTask(title, deadline, priority, false);
+                    System.out.println("Task added.");
+                    break;
+
+                case 2:
+                    manager.listTasks();
+                    break;
+
+                case 3:
+                    System.out.print("Enter task number to mark as done: ");
+                    int taskNum = scan.nextInt();
+                    scan.nextLine(); // clear newline
+                    manager.markTaskAsDone(taskNum);
+                    break;
+
+                case 4:
+                    running = false;
+                    System.out.println("Exiting...");
+                    break;
+
+                case 5:
+                    System.out.print("Enter filename to save (e.g. tasks.txt): ");
+                    String saveFile = scan.nextLine();
+                    manager.saveToFile(saveFile);
+                    break;
+
+                case 6:
+                    System.out.print("Enter filename to load (e.g. tasks.txt): ");
+                    String loadFile = scan.nextLine();
+                    manager.loadFromFile(loadFile);
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+
+        scan.close();
+    }
+}
