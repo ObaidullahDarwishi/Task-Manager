@@ -1,0 +1,52 @@
+public class Task {
+    private String title;
+    private int deadline;
+    private int priority;
+    private boolean isDone;
+
+    public Task(String title, int deadline, int priority, boolean isDone) {
+        this.title = title;
+        this.deadline = deadline;
+        this.priority = priority;
+        this.isDone = isDone;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(int deadline) {
+        this.deadline = deadline;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public boolean getIsDone() {
+        return isDone;
+    }
+
+    public void setIsDone(boolean isDone) {
+        this.isDone = isDone;
+    }
+
+    public void displayInfo() {
+        System.out.println("Title: " + getTitle());
+        System.out.println("Deadline: " + getDeadline());
+        System.out.println("Priority: " + getPriority());
+        System.out.println("Is it Done? " + getIsDone());
+    }
+}
